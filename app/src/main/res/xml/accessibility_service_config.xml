@@ -5,4 +5,4 @@
     android:canRetrieveWindowContent="true"
     android:canPerformGestures="true"
     android:canRequestFilterKeyEvents="false"
-    android:description="JARVIS can inspect visible UI and perform explicitly requested screen actions." />
+    android:description="@string/accessibility_description" />
