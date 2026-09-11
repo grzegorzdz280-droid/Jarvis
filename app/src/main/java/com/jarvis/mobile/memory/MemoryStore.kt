@@ -4,17 +4,30 @@ import android.content.Context
 import org.json.JSONArray
 
 class MemoryStore(context: Context) {
-    private val p = context.getSharedPreferences("jarvis_memory", Context.MODE_PRIVATE)
+
+    private val prefs = context.getSharedPreferences("jarvis_memory", Context.MODE_PRIVATE)
+
     fun add(text: String) {
-        val a = JSONArray(p.getString("items", "[]"))
-        a.put(text.take(500))
-        while (a.length() > 30) a.remove(0)
-        p.edit().putString("items", a.toString()).apply()
+        val arr = JSONArray(prefs.getString("items", "[]"))
+        arr.put(text.take(600))
+        while (arr.length() > 40) {
+            arr.remove(0)
+        }
+        prefs.edit().putString("items", arr.toString()).apply()
     }
+
     fun recent(): String {
-        val a = JSONArray(p.getString("items", "[]"))
+        val arr = JSONArray(prefs.getString("items", "[]"))
+        if (arr.length() == 0) return "brak"
         val out = StringBuilder()
-        for (i in maxOf(0, a.length()-8) until a.length()) out.append("- ").append(a.optString(i)).append('\n')
+        val start = maxOf(0, arr.length() - 10)
+        for (i in start until arr.length()) {
+            out.append("- ").append(arr.optString(i)).append('\n')
+        }
         return out.toString()
+    }
+
+    fun clear() {
+        prefs.edit().remove("items").apply()
     }
 }
