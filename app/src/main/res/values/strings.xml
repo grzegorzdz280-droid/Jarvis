@@ -1,1 +1,5 @@
-<resources><string name="app_name">JARVIS Mobile</string><string name="accessibility_description">JARVIS screen automation service</string></resources>
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">JARVIS Mobile</string>
+    <string name="accessibility_description">JARVIS screen automation and control service</string>
+</resources>
