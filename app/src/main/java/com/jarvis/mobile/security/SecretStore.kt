@@ -28,10 +28,17 @@ class SecretStore(private val context: Context) {
     }
 
     fun put(name: String, value: String) {
-        if (value.isEmpty()) { prefs.edit().remove(name).apply(); return }
+        if (value.isEmpty()) {
+            prefs.edit().remove(name).apply()
+            return
+        }
         val cipher = Cipher.getInstance("AES/GCM/NoPadding")
         cipher.init(Cipher.ENCRYPT_MODE, key())
-        prefs.edit().putString(name, Base64.encodeToString(cipher.iv, Base64.NO_WRAP) + ":" + Base64.encodeToString(cipher.doFinal(value.toByteArray()), Base64.NO_WRAP)).apply()
+        prefs.edit().putString(
+            name,
+            Base64.encodeToString(cipher.iv, Base64.NO_WRAP) + ":" +
+                    Base64.encodeToString(cipher.doFinal(value.toByteArray()), Base64.NO_WRAP)
+        ).apply()
     }
 
     fun get(name: String): String {
@@ -41,6 +48,8 @@ class SecretStore(private val context: Context) {
             val cipher = Cipher.getInstance("AES/GCM/NoPadding")
             cipher.init(Cipher.DECRYPT_MODE, key(), GCMParameterSpec(128, Base64.decode(parts[0], Base64.NO_WRAP)))
             String(cipher.doFinal(Base64.decode(parts[1], Base64.NO_WRAP)))
-        } catch (_: Exception) { "" }
+        } catch (_: Exception) {
+            ""
+        }
     }
 }
