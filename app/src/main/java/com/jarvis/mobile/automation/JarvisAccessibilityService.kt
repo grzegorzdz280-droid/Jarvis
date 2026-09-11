@@ -32,7 +32,7 @@ class JarvisAccessibilityService : AccessibilityService() {
         val text = (n.text ?: n.contentDescription)?.toString()?.trim()
         val rect = Rect()
         n.getBoundsInScreen(rect)
-        val at = "@(\( {rect.centerX()}, \){rect.centerY()})"
+        val at = "@(${rect.centerX()}, ${rect.centerY()})"
         val checkInfo = if (n.isCheckable) " checked=${n.isChecked}" else ""
         val clickable = if (n.isClickable) " clickable" else ""
 
@@ -168,7 +168,7 @@ class JarvisAccessibilityService : AccessibilityService() {
             for (app in apps) {
                 if (pm.getLaunchIntentForPackage(app.packageName) != null) {
                     val label = pm.getApplicationLabel(app).toString()
-                    list.add("\( label ( \){app.packageName})")
+                    list.add("$label (${app.packageName})")
                 }
             }
             list.sorted().take(160).joinToString("\n")
